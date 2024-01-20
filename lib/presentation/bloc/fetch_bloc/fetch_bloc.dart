@@ -9,15 +9,19 @@ part 'fetch_state.dart';
 class FetchBloc extends Bloc<FetchEvent, FetchState> {
   FetchApiProvider messenger ;
   FetchBloc(this.messenger) : super(FetchInitialState()) {
+
     on<FetchLoadedEvent>((event, emit)async {
       emit(FetchInitialState());
       try{
         final messageData = await messenger.fetchApi();
+        print("messageData : ${messageData.length}");
         emit(fetchLoadedState(list: messageData));
+        print("list loaded in bloc ");
       }
       catch(e){
         emit(fetchErrorState(error: e.toString()));
       }
     });
+
   }
 }

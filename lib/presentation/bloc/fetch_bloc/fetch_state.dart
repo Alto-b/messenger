@@ -11,7 +11,7 @@ abstract class FetchState extends Equatable {
 
 
  class fetchLoadedState extends FetchState{
-  List<MessengerModel> list = [];
+  final List<MessengerModel> list;
 
   fetchLoadedState({required this.list});
 
@@ -26,5 +26,5 @@ class fetchErrorState extends FetchState{
 
   @override
   List<Object> get props => [];
-  
+
 }
