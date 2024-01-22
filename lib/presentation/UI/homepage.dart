@@ -51,20 +51,20 @@ class HomePage extends StatelessWidget {
                       builder: (context, state) {
                         
                       print("entered builder");  
-                      
+                    
                         return Container(
-                                    clipBehavior: Clip.antiAlias,
-                                    height: screenHeight - 180,
-                                    width: screenWidth - 30,
-                                    decoration: BoxDecoration(
-                                        // color: Colors.green,
-                                        border: Border.all(),
-                                        borderRadius: BorderRadius.circular(20)),
-                                      child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: bodyMessage(state, context)
-                                    ),
-                                  );
+                                                          clipBehavior: Clip.antiAlias,
+                                                          height: screenHeight - 180,
+                                                          width: screenWidth - 30,
+                                                          decoration: BoxDecoration(
+                                                              // color: Colors.green,
+                                                              border: Border.all(),
+                                                              borderRadius: BorderRadius.circular(20)),
+                                                            child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: bodyMessage(state, context)
+                                                          ),
+                                                        );
                       },
                     ),
                     const SizedBox(height: 10),
@@ -80,11 +80,11 @@ class HomePage extends StatelessWidget {
                             child: Stack(
                               children: [
                                 TextFormField(
-                                  controller:textController,
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(30))),
-                                ),
+                                                                controller:textController,
+                                                                decoration: InputDecoration(
+                                                                    border: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius.circular(30))),
+                                                              ),
                                 Positioned(
                                   bottom: 15,
                                   right: 10,
@@ -111,9 +111,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-void submit(BuildContext context){
-  context.read<PostBloc>().add(sendEvent(user: name, message: textController.text));
+void submit(BuildContext context) {
+  if (textController.text.isNotEmpty) {
+    context.read<PostBloc>().add(sendEvent(user: name, message: textController.text));
+    context.read<FetchBloc>().add(FetchLoadedEvent());
+    textController.clear();
   }
+}
+
 
 Widget bodyMessage(state, context){
 
@@ -126,26 +131,26 @@ Widget bodyMessage(state, context){
       print("entered loaded ${state.list.length}");
     // if(state.list.length != 0 ){
       return ListView.builder(
-                                  itemCount:state.list.length ,
-                                  itemBuilder: ((context, index) {
-                                    return   Padding(
-                                      padding: const EdgeInsets.fromLTRB(0,0,0,0),
-                                      child: ListTile(
-                                        // leading: Icon(Icons.arrow_right),
-                                        title: RichText(
-                                          text: TextSpan(
-                                            text: "${state.list[index].title} : ",
-                                            style: DefaultTextStyle.of(context).style.copyWith(fontSize: 17),
-                                            children:  <TextSpan>[
-                                              TextSpan(text:"${state.list[index].description}", style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
-                                            ],
+                                      itemCount:state.list.length ,
+                                      itemBuilder: ((context, index) {
+                                        return   Padding(
+                                          padding: const EdgeInsets.fromLTRB(0,0,0,0),
+                                          child: ListTile(
+                                            // leading: Icon(Icons.arrow_right),
+                                            title: RichText(
+                                              text: TextSpan(
+                                                text: "${state.list[index].title} : ",
+                                                style: DefaultTextStyle.of(context).style.copyWith(fontSize: 17),
+                                                children:  <TextSpan>[
+                                                  TextSpan(text:"${state.list[index].description}", style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
+                                                ],
+                                              ),
+                                            ),
+                                            // trailing:  Text("${state.list[index].updatedAt}"),
                                           ),
-                                        ),
-                                        // trailing:  Text("${state.list[index].updatedAt}"),
-                                      ),
+                                        );
+                                      }),
                                     );
-                                  }),
-                                );
     // }
   } 
   if(state is fetchErrorState){
